@@ -15,68 +15,68 @@
 ```
 
 ## Phase 3.1: Setup
-- [ ] T001 Create backend solution & projects (Api, Domain, Application, Infrastructure) at `backend/src/` with .NET 9 solution file `backend/PromptTesting.sln`.
-- [ ] T002 Add project references per plan (Api→Application→Domain; Api→Infrastructure→Domain) and add NuGet packages (MediatR, FluentValidation, EF Core SQL Server & Design, Serilog.AspNetCore, Swashbuckle) editing corresponding `.csproj` files.
-- [ ] T003 Initialize frontend Angular 20 app at `frontend/prompt-testing/` with standalone components, routing, SCSS, install Angular Material, ag-grid, NgRx signals, Jest + Testing Library config.
-- [ ] T004 Setup root tooling: `.editorconfig`, Prettier (frontend), basic `.gitignore`, add placeholder README.
-- [ ] T005 Configure OpenAPI generation in `PromptTesting.Api` (Swashbuckle) and enable Serilog structured logging with correlation ID middleware skeleton.
-- [ ] T006 Add solution-wide test projects: `backend/tests/PromptTesting.ContractTests`, `backend/tests/PromptTesting.IntegrationTests`, `backend/tests/PromptTesting.UnitTests` referencing necessary projects.
-- [ ] T007 [P] Add Testcontainers dependency (SQL Server) to IntegrationTests project and base fixture class.
-- [ ] T008 Configure Jest in frontend: `jest.config.js`, setup file for Angular, add `test:watch` script.
+- [x] T001 Create backend solution & projects (Api, Domain, Application, Infrastructure) at `backend/src/` with .NET 9 solution file `backend/PromptTesting.sln`.
+- [x] T002 Add project references per plan (Api→Application→Domain; Api→Infrastructure→Domain) and add NuGet packages (MediatR, FluentValidation, EF Core SQL Server & Design, Serilog.AspNetCore, Swashbuckle) editing corresponding `.csproj` files.
+- [x] T003 Initialize frontend Angular 20 app at `frontend/prompt-testing/` with standalone components, routing, SCSS, install Angular Material, ag-grid, NgRx signals, Jest + Testing Library config.
+- [x] T004 Setup root tooling: `.editorconfig`, Prettier (frontend), basic `.gitignore`, add placeholder README.
+- [x] T005 Configure OpenAPI generation in `PromptTesting.Api` (Swashbuckle) and enable Serilog structured logging with correlation ID middleware skeleton.
+- [x] T006 Add solution-wide test projects: `backend/tests/PromptTesting.ContractTests`, `backend/tests/PromptTesting.IntegrationTests`, `backend/tests/PromptTesting.UnitTests` referencing necessary projects.
+- [x] T007 [P] Add Testcontainers dependency (SQL Server) to IntegrationTests project and base fixture class.
+- [x] T008 Configure Jest in frontend: `jest.config.js`, setup file for Angular, add `test:watch` script.
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST FAIL INITIALLY
 Contract Tests (one per endpoint) – backend/tests/PromptTesting.ContractTests
-- [ ] T009 [P] Contract test GET /prompts validates 200 and JSON array matches Prompt schema in `.../ContractTests/Prompts/GetPromptsContractTests.cs`
-- [ ] T010 [P] Contract test GET /prompts/{id}/context validates 200 + schema & 404 missing in `.../ContractTests/Prompts/GetPromptContextContractTests.cs`
-- [ ] T011 [P] Contract test POST /prompts/{id}/test returns 202 with testId & handles 409 in `.../ContractTests/Prompts/PostPromptTestContractTests.cs`
-- [ ] T012 [P] Contract test GET /tests/{id}/results returns 200 & schema or 404 in `.../ContractTests/Tests/GetTestResultsContractTests.cs`
-- [ ] T013 [P] Contract test POST /scope/validate returns 200 valid combo or 422 invalid in `.../ContractTests/Scope/PostScopeValidateContractTests.cs`
+- [x] T009 [P] Contract test GET /prompts validates 200 and JSON array matches Prompt schema in `.../ContractTests/Prompts/GetPromptsContractTests.cs`
+- [x] T010 [P] Contract test GET /prompts/{id}/context validates 200 + schema & 404 missing in `.../ContractTests/Prompts/GetPromptContextContractTests.cs`
+- [x] T011 [P] Contract test POST /prompts/{id}/test returns 202 with testId & handles 409 in `.../ContractTests/Prompts/PostPromptTestContractTests.cs`
+- [x] T012 [P] Contract test GET /tests/{id}/results returns 200 & schema or 404 in `.../ContractTests/Tests/GetTestResultsContractTests.cs`
+- [x] T013 [P] Contract test POST /scope/validate returns 200 valid combo or 422 invalid in `.../ContractTests/Scope/PostScopeValidateContractTests.cs`
 
 Integration Tests (user stories) – backend/tests/PromptTesting.IntegrationTests
-- [ ] T014 [P] Integration: Full user flow scope→list prompts in `.../IntegrationTests/Flows/ScopeToPromptListFlowTests.cs`
-- [ ] T015 [P] Integration: Prompt select → context retrieval in `.../IntegrationTests/Flows/PromptContextFlowTests.cs`
-- [ ] T016 [P] Integration: Execute test run and poll result lifecycle in `.../IntegrationTests/Flows/TestRunLifecycleTests.cs`
-- [ ] T017 [P] Integration: Prevent concurrent test run same prompt/user in `.../IntegrationTests/Flows/ConcurrencyPreventionTests.cs`
-- [ ] T018 [P] Integration: Failure path document repo unavailable marks failed run in `.../IntegrationTests/Flows/FailurePathTests.cs`
+- [x] T014 [P] Integration: Full user flow scope→list prompts in `.../IntegrationTests/Flows/ScopeToPromptListFlowTests.cs`
+- [x] T015 [P] Integration: Prompt select → context retrieval in `.../IntegrationTests/Flows/PromptContextFlowTests.cs`
+- [x] T016 [P] Integration: Execute test run and poll result lifecycle in `.../IntegrationTests/Flows/TestRunLifecycleTests.cs`
+- [x] T017 [P] Integration: Prevent concurrent test run same prompt/user in `.../IntegrationTests/Flows/ConcurrencyPreventionTests.cs`
+- [x] T018 [P] Integration: Failure path document repo unavailable marks failed run in `.../IntegrationTests/Flows/FailurePathTests.cs`
 
 Frontend Component & Store Tests (initial failing specs) – frontend/prompt-testing/tests
-- [ ] T019 [P] Scope selector component spec ensuring disables apply until all fields set in `frontend/prompt-testing/tests/scope/scope-selector.component.spec.ts`
-- [ ] T020 [P] Prompt list component spec verifying columns & status badges in `frontend/prompt-testing/tests/prompts/prompt-list.component.spec.ts`
-- [ ] T021 [P] Context editor component spec ensuring run disabled when empty in `frontend/prompt-testing/tests/context/context-editor.component.spec.ts`
-- [ ] T022 [P] Test execution panel spec verifying status transitions in `frontend/prompt-testing/tests/testing/test-execution.component.spec.ts`
-- [ ] T023 [P] Results card component spec verifying accuracy & last run display in `frontend/prompt-testing/tests/testing/results-card.component.spec.ts`
+- [x] T019 [P] Scope selector component spec ensuring disables apply until all fields set in `frontend/prompt-testing/tests/scope/scope-selector.component.spec.ts`
+- [x] T020 [P] Prompt list component spec verifying columns & status badges in `frontend/prompt-testing/tests/prompts/prompt-list.component.spec.ts`
+- [x] T021 [P] Context editor component spec ensuring run disabled when empty in `frontend/prompt-testing/tests/context/context-editor.component.spec.ts`
+- [x] T022 [P] Test execution panel spec verifying status transitions in `frontend/prompt-testing/tests/testing/test-execution.component.spec.ts`
+- [x] T023 [P] Results card component spec verifying accuracy & last run display in `frontend/prompt-testing/tests/testing/results-card.component.spec.ts`
 
 ## Phase 3.3: Core Implementation (ONLY after above tests are red)
 Backend Domain & Application
-- [ ] T024 [P] Create Domain entities (Prompt, TestRun, TestResultMetric) in `backend/src/PromptTesting.Domain/Entities/` with invariants.
-- [ ] T025 [P] Create Value Objects / enums (PromptStatus, TestRunStatus) in `backend/src/PromptTesting.Domain/ValueObjects/`.
-- [ ] T026 [P] DbContext + configurations (Prompt, TestRun) in `backend/src/PromptTesting.Infrastructure/Persistence/` with indices.
-- [ ] T027 MediatR queries: GetPromptsQuery, GetPromptContextQuery in `...Application/Prompts/Queries/`.
-- [ ] T028 MediatR commands: ExecutePromptTestCommand, ValidateScopeCommand in `...Application/Prompts/Commands/` & `...Application/Scope/Commands/`.
-- [ ] T029 Concurrency guard logic (single running test) in ExecutePromptTestCommand handler.
+- [x] T024 [P] Create Domain entities (Prompt, TestRun, TestResultMetric) in `backend/src/PromptTesting.Domain/Entities/` with invariants.
+- [x] T025 [P] Create Value Objects / enums (PromptStatus, TestRunStatus) in `backend/src/PromptTesting.Domain/ValueObjects/`.
+- [x] T026 [P] DbContext + configurations (Prompt, TestRun) in `backend/src/PromptTesting.Infrastructure/Persistence/` with indices.
+- [x] T027 MediatR queries: GetPromptsQuery, GetPromptContextQuery in `...Application/Prompts/Queries/`.
+- [x] T028 MediatR commands: ExecutePromptTestCommand, ValidateScopeCommand in `...Application/Prompts/Commands/` & `...Application/Scope/Commands/`.
+- [x] T029 Concurrency guard logic (single running test) in ExecutePromptTestCommand handler.
 - [ ] T030 Update Prompt on TestRun completion (accuracy, lastRunAt) within command handler transaction.
-- [ ] T031 Validation (FluentValidation) for commands & queries in `...Application/Validation/`.
+- [x] T031 Validation (FluentValidation) for commands & queries in `...Application/Validation/`.
 
 Backend API Endpoints
-- [ ] T032 Implement GET /prompts in `PromptTesting.Api/Endpoints/Prompts/GetPromptsEndpoint.cs`.
-- [ ] T033 Implement GET /prompts/{id}/context in `PromptTesting.Api/Endpoints/Prompts/GetPromptContextEndpoint.cs`.
-- [ ] T034 Implement POST /prompts/{id}/test in `PromptTesting.Api/Endpoints/Prompts/PostPromptTestEndpoint.cs`.
-- [ ] T035 Implement GET /tests/{id}/results in `PromptTesting.Api/Endpoints/Tests/GetTestResultsEndpoint.cs`.
-- [ ] T036 Implement POST /scope/validate in `PromptTesting.Api/Endpoints/Scope/ValidateScopeEndpoint.cs`.
-- [ ] T037 Wire Serilog + correlation ID middleware and minimal audit logging of TestRun events in `Program.cs`.
+- [x] T032 Implement GET /prompts in `PromptTesting.Api/Endpoints/Prompts/GetPromptsEndpoint.cs`.
+- [x] T033 Implement GET /prompts/{id}/context in `PromptTesting.Api/Endpoints/Prompts/GetPromptContextEndpoint.cs`.
+- [x] T034 Implement POST /prompts/{id}/test in `PromptTesting.Api/Endpoints/Prompts/PostPromptTestEndpoint.cs`.
+- [x] T035 Implement GET /tests/{id}/results in `PromptTesting.Api/Endpoints/Tests/GetTestResultsEndpoint.cs`.
+- [x] T036 Implement POST /scope/validate in `PromptTesting.Api/Endpoints/Scope/ValidateScopeEndpoint.cs`.
+- [x] T037 Wire Serilog + correlation ID middleware and minimal audit logging of TestRun events in `Program.cs`.
 
 Frontend State & Services
-- [ ] T038 API models & types in `frontend/prompt-testing/src/app/shared/models/`.
-- [ ] T039 HTTP data service for prompts & tests in `frontend/prompt-testing/src/app/shared/services/prompt-testing-api.service.ts`.
+- [x] T038 API models & types in `frontend/prompt-testing/src/app/shared/models/`.
+- [x] T039 HTTP data service for prompts & tests in `frontend/prompt-testing/src/app/shared/services/prompt-testing-api.service.ts`.
 - [ ] T040 NgRx signal stores: scopeStore, promptsStore, testRunStore in `frontend/prompt-testing/src/app/...` feature folders.
 - [ ] T041 Routing & top-level layout shell with left scope column in `frontend/prompt-testing/src/app/app.routes.ts` and layout component.
 
 Frontend Components
-- [ ] T042 Scope selector standalone component in `scope/` folder with Angular Material selects.
-- [ ] T043 Prompt list component using ag-grid with status cell renderer in `prompts/`.
-- [ ] T044 Context editor component with textarea + validation in `context/`.
-- [ ] T045 Test execution panel component with run button + status states in `testing/`.
-- [ ] T046 Results card component with accuracy display & color coding in `testing/`.
+- [x] T042 Scope selector standalone component in `scope/` folder with Angular Material selects.
+- [x] T043 Prompt list component using ag-grid with status cell renderer in `prompts/`.
+- [x] T044 Context editor component with textarea + validation in `context/`.
+- [x] T045 Test execution panel component with run button + status states in `testing/`.
+- [x] T046 Results card component with accuracy display & color coding in `testing/`.
 
 ## Phase 3.4: Integration
 - [ ] T047 EF Core migrations initial create + Prompt seed data in `Infrastructure/Migrations/`.
