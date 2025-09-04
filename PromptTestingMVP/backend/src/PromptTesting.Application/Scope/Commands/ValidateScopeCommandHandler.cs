@@ -1,12 +1,20 @@
 using MediatR;
+using PromptTesting.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace PromptTesting.Application.Scope.Commands;
 
 public class ValidateScopeCommandHandler : IRequestHandler<ValidateScopeCommand, bool>
 {
-    public Task<bool> Handle(ValidateScopeCommand request, CancellationToken cancellationToken)
+    private readonly AppDbContext _db;
+    public ValidateScopeCommandHandler(AppDbContext db) => _db = db;
+    public async Task<bool> Handle(ValidateScopeCommand request, CancellationToken cancellationToken)
     {
-        // MVP: all combinations valid; future: check rules table
-        return Task.FromResult(true);
+        return await _db.ScopeValidationRules.AnyAsync(r =>
+            r.Team == request.Team &&
+            r.BrokingSegment == request.BrokingSegment &&
+            r.GlobalLineOfBusiness == request.GlobalLineOfBusiness &&
+            r.Product == request.Product &&
+            r.IsValid, cancellationToken);
     }
 }

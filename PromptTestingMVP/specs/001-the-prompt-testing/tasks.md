@@ -54,7 +54,7 @@ Backend Domain & Application
 - [x] T027 MediatR queries: GetPromptsQuery, GetPromptContextQuery in `...Application/Prompts/Queries/`.
 - [x] T028 MediatR commands: ExecutePromptTestCommand, ValidateScopeCommand in `...Application/Prompts/Commands/` & `...Application/Scope/Commands/`.
 - [x] T029 Concurrency guard logic (single running test) in ExecutePromptTestCommand handler.
-- [ ] T030 Update Prompt on TestRun completion (accuracy, lastRunAt) within command handler transaction.
+- [x] T030 Update Prompt on TestRun completion (accuracy, lastRunAt) within command handler transaction.
 - [x] T031 Validation (FluentValidation) for commands & queries in `...Application/Validation/`.
 
 Backend API Endpoints
@@ -68,8 +68,8 @@ Backend API Endpoints
 Frontend State & Services
 - [x] T038 API models & types in `frontend/prompt-testing/src/app/shared/models/`.
 - [x] T039 HTTP data service for prompts & tests in `frontend/prompt-testing/src/app/shared/services/prompt-testing-api.service.ts`.
-- [ ] T040 NgRx signal stores: scopeStore, promptsStore, testRunStore in `frontend/prompt-testing/src/app/...` feature folders.
-- [ ] T041 Routing & top-level layout shell with left scope column in `frontend/prompt-testing/src/app/app.routes.ts` and layout component.
+- [x] T040 NgRx signal stores: scopeStore, promptsStore, testRunStore in `frontend/prompt-testing/src/app/...` feature folders.
+- [x] T041 Routing & top-level layout shell with left scope column in `frontend/prompt-testing/src/app/app.routes.ts` and layout component.
 
 Frontend Components
 - [x] T042 Scope selector standalone component in `scope/` folder with Angular Material selects.
@@ -79,18 +79,18 @@ Frontend Components
 - [x] T046 Results card component with accuracy display & color coding in `testing/`.
 
 ## Phase 3.4: Integration
-- [ ] T047 EF Core migrations initial create + Prompt seed data in `Infrastructure/Migrations/`.
-- [ ] T048 Implement Testcontainers SQL Server setup & use in integration tests fixture.
-- [ ] T049 OIDC authentication & JWT validation middleware configuration in `PromptTesting.Api`.
-- [ ] T050 Scope validation rule source table + seeding + handler logic reuse.
-- [ ] T051 Error handling middleware (problem details) & consistent error responses.
-- [ ] T052 Frontend OIDC auth integration (silent login, token injection) service in `shared/services/auth.service.ts`.
-- [ ] T053 Frontend toast notification service + material snackbar integration.
-- [ ] T054 Polling logic for test run status in testRunStore with exponential backoff.
+- [x] T047 EF Core migrations initial create + Prompt seed data in `Infrastructure/Migrations/`.
+- [x] T048 Implement Testcontainers SQL Server setup & use in integration tests fixture.
+- [x] T049 OIDC authentication & JWT validation middleware configuration in `PromptTesting.Api`.
+- [x] T050 Scope validation rule source table + seeding + handler logic reuse.
+- [x] T051 Error handling middleware (problem details) & consistent error responses.
+- [x] T052 Frontend OIDC auth integration (silent login, token injection) service in `shared/services/auth.service.ts`.
+- [x] T053 Frontend toast notification service + material snackbar integration.
+- [x] T054 Polling logic for test run status in testRunStore with exponential backoff.
 
 ## Phase 3.5: Polish
-- [ ] T055 [P] Backend unit tests for domain invariants & validation in `UnitTests/Domain/`.
-- [ ] T056 [P] Backend unit tests for handlers edge cases in `UnitTests/Application/`.
+- [x] T055 [P] Backend unit tests for domain invariants & validation in `UnitTests/Domain/`.
+- [x] T056 [P] Backend unit tests for handlers edge cases in `UnitTests/Application/`.
 - [ ] T057 [P] Frontend unit tests for stores (signals) in `frontend/prompt-testing/tests/stores/`.
 - [ ] T058 Accessibility review & ARIA roles for interactive components.
 - [ ] T059 Performance smoke test measuring prompt list load (<2s) script in `backend/tests/PromptTesting.IntegrationTests/Performance/`.

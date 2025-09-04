@@ -1,0 +1,4 @@
+<div class="results-card">
+  @if (accuracy !== undefined) { <div>Accuracy: {{ accuracy }}%</div> }
+  @if (completedAt) { <div>Completed: {{ completedAt | date:'shortTime' }}</div> }
+</div>

@@ -6,6 +6,8 @@ using MediatR;
 using PromptTesting.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using PromptTesting.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -13,6 +15,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetPromptsQuery>());
 builder.Services.AddDbContext<AppDbContext>(o =>
 	o.UseSqlServer(builder.Configuration.GetConnectionString("Default") ?? "Server=(local);Database=PromptTesting;Trusted_Connection=True;TrustServerCertificate=True"));
+
+// T049 OIDC auth placeholder
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.Authority = builder.Configuration["Auth:Authority"] ?? "https://login.example.com";
+		options.Audience = builder.Configuration["Auth:Audience"] ?? "prompt-testing-api";
+		options.RequireHttpsMetadata = false;
+	});
+builder.Services.AddAuthorization();
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().Enrich.FromLogContext().CreateLogger();
 builder.Host.UseSerilog();
@@ -23,6 +35,10 @@ var app = builder.Build();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ProblemDetailsMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Mediator wired endpoints (simplified placeholder logic still)
 app.MapGet("/prompts", async ([FromQuery] string team,[FromQuery] string brokingSegment,[FromQuery] string globalLineOfBusiness,[FromQuery] string product, IMediator mediator) =>
@@ -47,6 +63,14 @@ app.MapPost("/scope/validate", async ([FromBody] ScopeBody scope, IMediator medi
 	var valid = await mediator.Send(new ValidateScopeCommand(scope.Team, scope.BrokingSegment, scope.GlobalLineOfBusiness, scope.Product));
 	return valid ? Results.Ok() : Results.UnprocessableEntity();
 });
+
+// Seed data (dev only)
+using (var scope = app.Services.CreateScope())
+{
+	var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+	await db.Database.EnsureCreatedAsync();
+	await db.SeedAsync();
+}
 
 app.Run();
 

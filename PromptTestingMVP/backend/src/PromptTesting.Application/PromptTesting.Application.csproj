@@ -6,9 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../PromptTesting.Domain/PromptTesting.Domain.csproj" />
+  <ProjectReference Include="../PromptTesting.Infrastructure/PromptTesting.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="FluentValidation" Version="11.9.0" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.6.24327.4" />
   </ItemGroup>
 </Project>

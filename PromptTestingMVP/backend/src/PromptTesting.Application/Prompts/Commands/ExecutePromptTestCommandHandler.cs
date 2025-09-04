@@ -26,6 +26,17 @@ public class ExecutePromptTestCommandHandler : IRequestHandler<ExecutePromptTest
         };
         _db.TestRuns.Add(tr);
         await _db.SaveChangesAsync(cancellationToken);
+        // Simulate async processing completion (for MVP inline). In real system offload to background worker.
+        // Compute fake accuracy & update Prompt (T030)
+        var accuracy = Random.Shared.Next(60, 100);
+        tr.MarkRunning();
+        tr.MarkCompleted(accuracy);
+        var prompt = await _db.Prompts.FirstOrDefaultAsync(p => p.Id == tr.PromptId, cancellationToken);
+        if (prompt != null && tr.Accuracy.HasValue)
+        {
+            prompt.UpdateLastResult(tr.Accuracy.Value, tr.CompletedAt ?? DateTime.UtcNow);
+        }
+        await _db.SaveChangesAsync(cancellationToken);
         return tr.Id;
     }
 }

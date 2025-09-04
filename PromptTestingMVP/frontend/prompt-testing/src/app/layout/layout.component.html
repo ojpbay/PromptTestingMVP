@@ -1,0 +1,26 @@
+<div class="layout">
+  <header class="topbar">
+    <div class="brand">Prompt Testing<span class="accent">·MVP</span></div>
+    <div class="topbar-right">
+      <app-scope-selector />
+    </div>
+  </header>
+  <main class="dashboard-grid">
+    <section class="panel span-2">
+      <h2 class="panel-title">Prompts</h2>
+      <app-prompt-list />
+    </section>
+    <section class="panel">
+      <h2 class="panel-title">Context</h2>
+      <app-context-editor />
+    </section>
+    <section class="panel">
+      <h2 class="panel-title">Execute Test</h2>
+      <app-test-execution />
+    </section>
+    <section class="panel results">
+      <h2 class="panel-title">Latest Results</h2>
+      <app-results-card />
+    </section>
+  </main>
+</div>

@@ -11,5 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0-preview.6.24328.4" />
   </ItemGroup>
 </Project>

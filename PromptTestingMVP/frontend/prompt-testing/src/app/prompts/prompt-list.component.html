@@ -1,0 +1,12 @@
+@if (!store.loading()) {
+  <div class="prompt-list">
+    <!-- ag-grid-angular component placeholder; requires AgGridAngular import & module installation -->
+    <ag-grid-angular class="ag-theme-alpine" style="width:100%;height:400px"
+      [rowData]="rowData()"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef">
+    </ag-grid-angular>
+  </div>
+} @else {
+  <div class="prompt-list__loading">Loading...</div>
+}

@@ -1,0 +1,6 @@
+.results-card { border:1px dashed var(--color-border); padding:.75rem 1rem; border-radius:8px; background:linear-gradient(145deg, var(--color-surface), var(--color-surface-alt)); width:100%; box-shadow:var(--shadow-sm); }
+.results-card h3 { margin-top:0; font-size:.9rem; letter-spacing:.5px; text-transform:uppercase; font-weight:600; color:var(--color-text-soft); }
+.results-card .metric { display:flex; align-items:center; justify-content:space-between; font-size:.85rem; padding:.3rem 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.layout[data-theme="dark"] .results-card .metric { border-color:rgba(255,255,255,0.06); }
+.results-card .metric:last-child { border-bottom:none; }
+.results-card .value { font-weight:600; color:var(--color-accent); }
