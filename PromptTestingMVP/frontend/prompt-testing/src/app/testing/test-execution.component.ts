@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ScopeSelection } from '../shared/models/prompt.models';
+import { PromptTestingApiService } from '../shared/services/prompt-testing-api.service';
+import { TestRunStore } from './test-run.store';
 @Component({
   standalone: true,
   selector: 'app-test-execution',
@@ -6,6 +9,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./test-execution.component.scss']
 })
 export class TestExecutionComponent {
-  running=false; status='Idle';
-  run(){ this.running=true; this.status='Running'; setTimeout(()=>{ this.status='Completed'; this.running=false;}, 500); }
+  @Input() promptId?: string;
+  @Input() context = '';
+  @Input() scope?: ScopeSelection;
+  @Output() completed = new EventEmitter<{ accuracy?: number; finishedAt: Date }>();
+  store = new TestRunStore();
+  currentTestId?: string;
+
+  constructor(private api: PromptTestingApiService) {}
+
+  async run(){
+    if(!this.promptId || !this.scope) return;
+    if(!this.scope.team) return; // minimal guard
+    this.store.status.set('running');
+    const res = await this.api.executeTest(this.promptId, this.context, this.scope);
+    this.currentTestId = res.testId;
+    // start polling for result
+    await this.store.startPolling(async(id)=>{
+      const r = await this.api.getTestResult(id);
+      return { status: r.status as any, accuracy: r.accuracy };
+    }, res.testId);
+    if (this.store.status()==='completed') {
+      this.completed.emit({ accuracy: this.store.accuracy(), finishedAt: new Date() });
+    }
+  }
+
+  get canRun(): boolean {
+    if (this.store.status()==='running') return false;
+    if (!this.promptId) return false;
+    if (!this.context || this.context.trim().length===0) return false;
+    return true;
+  }
 }

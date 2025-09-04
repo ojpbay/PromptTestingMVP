@@ -2,25 +2,33 @@
   <header class="topbar">
     <div class="brand">Prompt Testing<span class="accent">·MVP</span></div>
     <div class="topbar-right">
-      <app-scope-selector />
+      <div class="scope-summary" *ngIf="scope">
+        <span class="scope-chip">{{scope.team}}</span>
+        <span class="scope-chip">{{scope.brokingSegment}}</span>
+        <span class="scope-chip">{{scope.globalLineOfBusiness}}</span>
+        <span class="scope-chip">{{scope.product}}</span>
+      </div>
+  <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
     </div>
   </header>
   <main class="dashboard-grid">
     <section class="panel span-2">
       <h2 class="panel-title">Prompts</h2>
-      <app-prompt-list />
+      <app-prompt-list (selectPrompt)="onPromptSelected($event)" />
+  <!-- Error display -->
+  @if(promptsStore.error()){<div class="error-msg">{{promptsStore.error()}}</div>}
     </section>
     <section class="panel">
-      <h2 class="panel-title">Context</h2>
-      <app-context-editor />
+      <h2 class="panel-title">Context @if(loadingContext){<span class="loading-indicator">(loading…)</span>}</h2>
+      <app-context-editor [value]="contextText" (valueChange)="onContextChanged($event)" />
     </section>
     <section class="panel">
       <h2 class="panel-title">Execute Test</h2>
-      <app-test-execution />
+  <app-test-execution [promptId]="selectedPrompt?.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
     </section>
     <section class="panel results">
       <h2 class="panel-title">Latest Results</h2>
-      <app-results-card />
+  <app-results-card [accuracy]="lastAccuracy" [completedAt]="lastCompletedAt" />
     </section>
   </main>
 </div>

@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { Prompt, ScopeSelection, TestRunResult } from '../models/prompt.models';
 
 const BASE = '/'; // adjust if API served under different base path
 
+@Injectable({ providedIn: 'root' })
 export class PromptTestingApiService {
   async getPrompts(scope: ScopeSelection): Promise<Prompt[]> {
     const params = new URLSearchParams({

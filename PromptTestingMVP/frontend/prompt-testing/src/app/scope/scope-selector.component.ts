@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ScopeStore } from './scope.store';
 @Component({
@@ -16,11 +16,16 @@ export class ScopeSelectorComponent {
     globalLineOfBusiness: [''],
     product: ['']
   });
+  @Output() scopeApplied = new EventEmitter<{team:string;brokingSegment:string;globalLineOfBusiness:string;product:string}>();
+  @Input() loading = false;
   constructor(public store: ScopeStore) {
-  this.form.valueChanges.subscribe(v => this.store.set(v as Partial<{team:string;brokingSegment:string;globalLineOfBusiness:string;product:string}>));
+  this.form.valueChanges.subscribe((v: any) => this.store.set(v as Partial<{team:string;brokingSegment:string;globalLineOfBusiness:string;product:string}>));
     // initialize form with existing selection
     const sel = this.store.selection();
     this.form.patchValue(sel, { emitEvent:false });
   }
-  apply(){ /* trigger prompt reload; consumer listens to store */ }
+  apply(){
+    if(!this.store.isComplete()) return;
+    this.scopeApplied.emit(this.store.selection());
+  }
 }

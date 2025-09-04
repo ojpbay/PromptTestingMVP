@@ -1,5 +1,6 @@
 .prompt-list { width:100%; display:block; }
-.prompt-list .ag-theme-alpine { height:360px; border:1px solid var(--color-border); border-radius:6px; overflow:hidden; }
+.prompt-list .ag-theme-alpine { height:360px; border:1px solid var(--color-border); border-radius:6px; overflow:hidden; width:100%; }
+.prompt-grid { width:100%; height:400px; }
 .prompt-list .ag-theme-alpine .ag-header { background:linear-gradient(90deg, var(--color-surface-alt), var(--color-surface)); }
 .prompt-list .ag-theme-alpine .ag-row-hover { background:rgba(var(--color-accent-rgb),0.08); }
 .prompt-list .ag-theme-alpine .ag-row.ag-row-selected { background:rgba(var(--color-accent-rgb),0.18); }
