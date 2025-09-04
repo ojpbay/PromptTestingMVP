@@ -1,0 +1,7 @@
+<form class="scope-form" [formGroup]="form">
+  <label>Team <input formControlName="team" /></label>
+  <label>Broking Segment <input formControlName="brokingSegment" /></label>
+  <label>Global LOB <input formControlName="globalLineOfBusiness" /></label>
+  <label>Product <input formControlName="product" /></label>
+  <button type="button" (click)="apply()" [disabled]="!store.isComplete() || loading">@if(loading){Loading…} @else {Apply}</button>
+</form>

@@ -1,0 +1,5 @@
+<div class="test-exec">
+  <button (click)="run()" [disabled]="!canRun">Run Test</button>
+  <div>Status: {{ store.status() }}</div>
+  @if(store.accuracy()!==undefined){ <div>Accuracy: {{ store.accuracy() }}%</div> }
+</div>

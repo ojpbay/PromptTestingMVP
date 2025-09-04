@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: Prompt Testing MVP API
+  version: 0.1.0
+servers:
+  - url: https://api.example.com
+paths:
+  /prompts:
+    get:
+      summary: List prompts by scope
+      parameters:
+        - in: query
+          name: team
+          schema: { type: string }
+          required: true
+        - in: query
+          name: brokingSegment
+          schema: { type: string }
+          required: true
+        - in: query
+          name: globalLineOfBusiness
+          schema: { type: string }
+          required: true
+        - in: query
+          name: product
+          schema: { type: string }
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prompt'
+  /prompts/{id}/context:
+    get:
+      summary: Get prompt base context
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromptContext'
+        '404':
+          description: Not Found
+  /prompts/{id}/test:
+    post:
+      summary: Execute test run
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRunRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRunAccepted'
+        '400': { description: Bad Request }
+        '409': { description: A test is already running for this prompt and user }
+  /tests/{id}/results:
+    get:
+      summary: Get test run result
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRunResult'
+        '404': { description: Not Found }
+  /scope/validate:
+    post:
+      summary: Validate scope combination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScopeSelection'
+      responses:
+        '200': { description: Valid }
+        '422': { description: Invalid scope combination }
+components:
+  schemas:
+    Prompt:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        version: { type: string }
+        dataPoint: { type: string }
+        status: { type: string, enum: [Active, Draft, Archived] }
+        accuracy: { type: number, minimum: 0, maximum: 100, nullable: true }
+        lastRun: { type: string, format: date-time, nullable: true }
+    PromptContext:
+      type: object
+      properties:
+        promptId: { type: string, format: uuid }
+        content: { type: string }
+    TestRunRequest:
+      type: object
+      required: [context, scope]
+      properties:
+        context: { type: string }
+        scope:
+          $ref: '#/components/schemas/ScopeSelection'
+    TestRunAccepted:
+      type: object
+      properties:
+        testId: { type: string, format: uuid }
+        status: { type: string, enum: [Running] }
+    TestRunResult:
+      type: object
+      properties:
+        accuracy: { type: number, minimum: 0, maximum: 100 }
+        completedAt: { type: string, format: date-time }
+        status: { type: string, enum: [Completed, Failed, Running] }
+        failureReason: { type: string, nullable: true }
+    ScopeSelection:
+      type: object
+      required: [team, brokingSegment, globalLineOfBusiness, product]
+      properties:
+        team: { type: string }
+        brokingSegment: { type: string }
+        globalLineOfBusiness: { type: string }
+        product: { type: string }

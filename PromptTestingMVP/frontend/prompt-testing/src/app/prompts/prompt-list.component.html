@@ -1,0 +1,16 @@
+@if (!store.loading()) {
+  <div class="prompt-list">
+    <!-- ag-grid-angular component placeholder; requires AgGridAngular import & module installation -->
+  <ag-grid-angular class="ag-theme-alpine prompt-grid"
+      [rowData]="rowData()"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      (rowClicked)="onSelect($event.data)">
+    </ag-grid-angular>
+    <ul class="prompt-fallback" *ngIf="!('AgGridAngular' in window)">
+      <li class="prompt-fallback__item" (click)="onSelect(p)" *ngFor="let p of rowData()">{{p.name}} <span>- {{p.status}}</span></li>
+    </ul>
+  </div>
+} @else {
+  <div class="prompt-list__loading">Loading...</div>
+}

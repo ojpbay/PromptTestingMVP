@@ -27,7 +27,12 @@ check_feature_branch() {
 get_feature_dir() {
     local repo_root="$1"
     local branch="$2"
-    echo "$repo_root/specs/$branch"
+    # Prefer workspace nested path if exists
+    if [[ -d "$repo_root/PromptTestingMVP/specs/$branch" ]]; then
+        echo "$repo_root/PromptTestingMVP/specs/$branch"
+    else
+        echo "$repo_root/specs/$branch"
+    fi
 }
 
 # Get all standard paths for a feature
@@ -37,6 +42,12 @@ get_feature_paths() {
     local repo_root=$(get_repo_root)
     local current_branch=$(get_current_branch)
     local feature_dir=$(get_feature_dir "$repo_root" "$current_branch")
+    # Fallback: some environments place working files in a nested directory (e.g. repo_root/PromptTestingMVP/)
+    # If the expected feature_dir does not exist but a nested path does, switch to that.
+    local nested_root_candidate="$repo_root/PromptTestingMVP"
+    if [[ ! -d "$feature_dir" && -d "$nested_root_candidate/specs/$current_branch" ]]; then
+        feature_dir="$nested_root_candidate/specs/$current_branch"
+    fi
     
     echo "REPO_ROOT='$repo_root'"
     echo "CURRENT_BRANCH='$current_branch'"
