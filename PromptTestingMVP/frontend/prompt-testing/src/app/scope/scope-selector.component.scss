@@ -1,3 +1,13 @@
-.scope-form { display:flex; flex-direction:column; gap:.5rem; }
-.scope-form label { font-size:.85rem; display:flex; flex-direction:column; }
-.scope-form input { padding:.25rem .5rem; }
+.scope-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.scope-form label {
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+}
+.scope-form input {
+  padding: 0.25rem 0.5rem;
+}

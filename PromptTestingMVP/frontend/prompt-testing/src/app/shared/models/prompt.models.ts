@@ -1,3 +1,21 @@
-export interface ScopeSelection { team: string; brokingSegment: string; globalLineOfBusiness: string; product: string; }
-export interface Prompt { id: string; name: string; version: string; dataPoint: string; status: 'Active' | 'Draft' | 'Archived'; accuracy?: number; lastRun?: string; }
-export interface TestRunResult { accuracy: number; completedAt: string; status: string; failureReason?: string | null; }
+export interface ScopeSelection {
+  team: string;
+  brokingSegment: string;
+  globalLineOfBusiness: string;
+  product: string;
+}
+export interface Prompt {
+  id: string;
+  name: string;
+  version: string;
+  dataPoint: string;
+  status: "Active" | "Draft" | "Archived";
+  accuracy?: number;
+  lastRun?: string;
+}
+export interface TestRunResult {
+  accuracy: number;
+  completedAt: string;
+  status: string;
+  failureReason?: string | null;
+}

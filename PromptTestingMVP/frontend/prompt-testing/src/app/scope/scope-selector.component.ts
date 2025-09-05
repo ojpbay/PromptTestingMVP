@@ -9,7 +9,7 @@ import { ScopeStore } from './scope.store';
   styleUrls: ['./scope-selector.component.scss']
 })
 export class ScopeSelectorComponent {
-  private fb = inject(NonNullableFormBuilder);
+  private readonly fb = inject(NonNullableFormBuilder);
   form: FormGroup = this.fb.group({
     team: [''],
     brokingSegment: [''],
