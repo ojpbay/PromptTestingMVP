@@ -23,7 +23,8 @@
     "@ngrx/store": "^20.0.0",
     "@ngrx/store-devtools": "^20.0.0",
     "ag-grid-angular": "^32.0.0",
-    "ag-grid-community": "^32.0.0"
+    "ag-grid-community": "^32.0.0",
+    "zone.js": "^0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.2.2",
