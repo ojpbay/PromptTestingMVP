@@ -3,6 +3,8 @@ using PromptTesting.Application.Prompts.Commands;
 using PromptTesting.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using System.Threading.Tasks;
+using System;
 
 namespace PromptTesting.UnitTests.Application;
 

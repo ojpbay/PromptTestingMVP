@@ -4,13 +4,12 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="xunit" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageReference Include="Testcontainers" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/PromptTesting.Domain/PromptTesting.Domain.csproj" />
-    <ProjectReference Include="../../src/PromptTesting.Application/PromptTesting.Application.csproj" />
+    <ProjectReference Include="../../src/PromptTesting.Api/PromptTesting.Api.csproj" />
   </ItemGroup>
 </Project>

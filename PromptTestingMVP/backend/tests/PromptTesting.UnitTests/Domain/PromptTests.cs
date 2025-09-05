@@ -1,5 +1,6 @@
 using Xunit;
 using PromptTesting.Domain.Entities;
+using System;
 
 namespace PromptTesting.UnitTests.Domain;
 
