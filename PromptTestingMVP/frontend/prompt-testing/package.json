@@ -9,6 +9,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@angular/animations": "^20.0.0",
     "@angular/cli": "^20.2.2",
     "@angular/common": "^20.0.0",
     "@angular/core": "^20.0.0",

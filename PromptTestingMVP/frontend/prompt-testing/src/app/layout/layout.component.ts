@@ -7,6 +7,9 @@ import { Prompt, ScopeSelection } from "../shared/models/prompt.models";
 import { PromptTestingApiService } from "../shared/services/prompt-testing-api.service";
 import { ResultsCardComponent } from "../testing/results-card.component";
 import { TestExecutionComponent } from "../testing/test-execution.component";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatButtonModule } from "@angular/material/button";
 @Component({
   standalone: true,
   selector: "app-layout",
@@ -16,6 +19,9 @@ import { TestExecutionComponent } from "../testing/test-execution.component";
     ContextEditorComponent,
     TestExecutionComponent,
     ResultsCardComponent,
+    MatToolbarModule,
+    MatChipsModule,
+    MatButtonModule,
   ],
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.scss"],

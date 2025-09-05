@@ -1,5 +1,11 @@
 <div class="test-exec">
-  <button (click)="run()" [disabled]="!canRun">Run Test</button>
-  <div>Status: {{ store.status() }}</div>
-  @if(store.accuracy()!==undefined){ <div>Accuracy: {{ store.accuracy() }}%</div> }
+  <button mat-raised-button color="accent" (click)="run()" [disabled]="!canRun || store.status()==='running'">
+    @if(store.status()==='running'){Running…} @else {Run Test}
+  </button>
+  <mat-chip-set>
+    <mat-chip color="primary" disableRipple>{{ store.status() }}</mat-chip>
+    @if(store.accuracy()!==undefined){
+      <mat-chip color="accent">Acc: {{ store.accuracy() }}%</mat-chip>
+    }
+  </mat-chip-set>
 </div>

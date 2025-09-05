@@ -1,3 +1,6 @@
 <div class="context-editor">
-  <textarea [formControl]="text" rows="12" placeholder="Enter / refine test context here..."></textarea>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Context</mat-label>
+    <textarea matInput [formControl]="text" rows="12" placeholder="Enter / refine test context here..."></textarea>
+  </mat-form-field>
 </div>

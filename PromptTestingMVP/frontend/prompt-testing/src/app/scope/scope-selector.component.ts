@@ -1,31 +1,55 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ScopeStore } from './scope.store';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 @Component({
   standalone: true,
-  selector: 'app-scope-selector',
-  imports:[ReactiveFormsModule],
-  templateUrl: './scope-selector.component.html',
-  styleUrls: ['./scope-selector.component.scss']
+  selector: "app-scope-selector",
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
+  templateUrl: "./scope-selector.component.html",
+  styleUrls: ["./scope-selector.component.scss"],
 })
 export class ScopeSelectorComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   form: FormGroup = this.fb.group({
-    team: [''],
-    brokingSegment: [''],
-    globalLineOfBusiness: [''],
-    product: ['']
+    team: [""],
+    brokingSegment: [""],
+    globalLineOfBusiness: [""],
+    product: [""],
   });
-  @Output() scopeApplied = new EventEmitter<{team:string;brokingSegment:string;globalLineOfBusiness:string;product:string}>();
+  @Output() scopeApplied = new EventEmitter<{
+    team: string;
+    brokingSegment: string;
+    globalLineOfBusiness: string;
+    product: string;
+  }>();
   @Input() loading = false;
   constructor(public store: ScopeStore) {
-  this.form.valueChanges.subscribe((v: any) => this.store.set(v as Partial<{team:string;brokingSegment:string;globalLineOfBusiness:string;product:string}>));
+    this.form.valueChanges.subscribe((v: any) =>
+      this.store.set(
+        v as Partial<{
+          team: string;
+          brokingSegment: string;
+          globalLineOfBusiness: string;
+          product: string;
+        }>
+      )
+    );
     // initialize form with existing selection
     const sel = this.store.selection();
-    this.form.patchValue(sel, { emitEvent:false });
+    this.form.patchValue(sel, { emitEvent: false });
   }
-  apply(){
-    if(!this.store.isComplete()) return;
+  apply() {
+    if (!this.store.isComplete()) return;
     this.scopeApplied.emit(this.store.selection());
   }
 }

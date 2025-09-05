@@ -1,30 +1,30 @@
 <div class="layout">
-  <header class="topbar">
-    <div class="brand">Prompt Testing<span class="accent">·MVP</span></div>
-    <div class="topbar-right">
-      @if(scope) {
-        <div class="scope-summary">
-          <span class="scope-chip">{{scope.team}}</span>
-          <span class="scope-chip">{{scope.brokingSegment}}</span>
-          <span class="scope-chip">{{scope.globalLineOfBusiness}}</span>
-          <span class="scope-chip">{{scope.product}}</span>
-        </div>
-      }
-  <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
-    </div>
-  </header>
+  <mat-toolbar class="topbar" color="primary">
+    <span class="brand">Prompt Testing<span class="accent">·MVP</span></span>
+    <span class="spacer"></span>
+    @if(scope) {
+      <mat-chip-set class="scope-summary">
+        <mat-chip>{{scope.team}}</mat-chip>
+        <mat-chip>{{scope.brokingSegment}}</mat-chip>
+        <mat-chip>{{scope.globalLineOfBusiness}}</mat-chip>
+        <mat-chip>{{scope.product}}</mat-chip>
+      </mat-chip-set>
+    }    
+  </mat-toolbar>
   <main class="dashboard-grid">
-    <section class="panel span-2">
+    <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
+
+    <section class="panel prompts">
       <h2 class="panel-title">Prompts</h2>
       <app-prompt-list (selectPrompt)="onPromptSelected($event)" />
   <!-- Error display -->
   @if(promptsStore.error()){<div class="error-msg">{{promptsStore.error()}}</div>}
     </section>
-    <section class="panel">
+    <section class="panel context">
       <h2 class="panel-title">Context @if(loadingContext){<span class="loading-indicator">(loading…)</span>}</h2>
       <app-context-editor [value]="contextText" (valueChange)="onContextChanged($event)" />
     </section>
-    <section class="panel">
+    <section class="panel test">
       <h2 class="panel-title">Execute Test</h2>
   <app-test-execution [promptId]="selectedPrompt?.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
     </section>

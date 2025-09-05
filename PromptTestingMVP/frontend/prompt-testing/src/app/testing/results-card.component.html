@@ -1,4 +1,11 @@
-<div class="results-card">
-  @if (accuracy !== undefined) { <div>Accuracy: {{ accuracy }}%</div> }
-  @if (completedAt) { <div>Completed: {{ completedAt | date:'shortTime' }}</div> }
-</div>
+<mat-card class="results-card">
+  <mat-card-header>
+    <mat-card-title>Result</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-chip-set>
+      @if (accuracy !== undefined) { <mat-chip color="accent" selected>Accuracy: {{ accuracy }}%</mat-chip> }
+      @if (completedAt) { <mat-chip color="primary" selected>{{ completedAt | date:'shortTime' }}</mat-chip> }
+    </mat-chip-set>
+  </mat-card-content>
+</mat-card>

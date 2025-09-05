@@ -1,7 +1,21 @@
 <form class="scope-form" [formGroup]="form">
-  <label>Team <input formControlName="team" /></label>
-  <label>Broking Segment <input formControlName="brokingSegment" /></label>
-  <label>Global LOB <input formControlName="globalLineOfBusiness" /></label>
-  <label>Product <input formControlName="product" /></label>
-  <button type="button" (click)="apply()" [disabled]="!store.isComplete() || loading">@if(loading){Loading…} @else {Apply}</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Team</mat-label>
+  <input matInput formControlName="team" placeholder="Team" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Broking Segment</mat-label>
+  <input matInput formControlName="brokingSegment" placeholder="Broking Segment" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Global LOB</mat-label>
+  <input matInput formControlName="globalLineOfBusiness" placeholder="Global LOB" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Product</mat-label>
+  <input matInput formControlName="product" placeholder="Product" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="apply()" [disabled]="!store.isComplete() || loading">
+    @if(loading){<mat-progress-spinner mode="indeterminate" diameter="18"></mat-progress-spinner>} @else {Apply}
+  </button>
 </form>
