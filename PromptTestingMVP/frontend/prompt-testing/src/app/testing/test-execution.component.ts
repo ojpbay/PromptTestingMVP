@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { ScopeSelection } from '../shared/models/prompt.models';
 import { PromptTestingApiService } from '../shared/services/prompt-testing-api.service';
 import { TestRunStore } from './test-run.store';
@@ -27,23 +28,15 @@ export class TestExecutionComponent {
   async run() {
     if (!this.promptId || !this.scope) return;
     if (!this.scope.team) return; // minimal guard
-    this.store.status.set("running");
-    const res = await this.api.executeTest(
-      this.promptId,
-      this.context,
-      this.scope
-    );
+    this.store.status.set('running');
+    const res = await firstValueFrom(this.api.executeTest(this.promptId, this.context, this.scope));
     this.currentTestId = res.testId;
-    // start polling for result
     await this.store.startPolling(async (id) => {
-      const r = await this.api.getTestResult(id);
+      const r = await firstValueFrom(this.api.getTestResult(id));
       return { status: r.status as any, accuracy: r.accuracy };
     }, res.testId);
-    if (this.store.status() === "completed") {
-      this.completed.emit({
-        accuracy: this.store.accuracy(),
-        finishedAt: new Date(),
-      });
+    if (this.store.status() === 'completed') {
+      this.completed.emit({ accuracy: this.store.accuracy(), finishedAt: new Date() });
     }
   }
 

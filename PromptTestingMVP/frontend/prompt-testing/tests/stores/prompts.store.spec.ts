@@ -1,10 +1,11 @@
 import { PromptsStore } from '../../src/app/prompts/prompts.store';
 import { ScopeStore } from '../../src/app/scope/scope.store';
 import { PromptTestingApiService } from '../../src/app/shared/services/prompt-testing-api.service';
+import { of } from 'rxjs';
 
 class ApiMock extends PromptTestingApiService {
-  constructor(private data: any){ super(); }
-  override async getPrompts(): Promise<any[]> { return this.data; }
+  constructor(private data: any){ super({} as any); }
+  override getPrompts(): any { return of(this.data); }
 }
 
 describe('PromptsStore', () => {

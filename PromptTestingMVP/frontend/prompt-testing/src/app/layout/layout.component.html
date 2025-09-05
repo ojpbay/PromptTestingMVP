@@ -9,28 +9,49 @@
         <mat-chip>{{scope.globalLineOfBusiness}}</mat-chip>
         <mat-chip>{{scope.product}}</mat-chip>
       </mat-chip-set>
-    }    
+    }
   </mat-toolbar>
-  <main class="dashboard-grid">
-    <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
-
-    <section class="panel prompts">
-      <h2 class="panel-title">Prompts</h2>
-      <app-prompt-list (selectPrompt)="onPromptSelected($event)" />
-  <!-- Error display -->
-  @if(promptsStore.error()){<div class="error-msg">{{promptsStore.error()}}</div>}
-    </section>
-    <section class="panel context">
-      <h2 class="panel-title">Context @if(loadingContext){<span class="loading-indicator">(loading…)</span>}</h2>
-      <app-context-editor [value]="contextText" (valueChange)="onContextChanged($event)" />
-    </section>
-    <section class="panel test">
-      <h2 class="panel-title">Execute Test</h2>
-  <app-test-execution [promptId]="selectedPrompt?.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
-    </section>
-    <section class="panel results">
-      <h2 class="panel-title">Latest Results</h2>
-  <app-results-card [accuracy]="lastAccuracy" [completedAt]="lastCompletedAt" />
-    </section>
-  </main>
+  <div class="shell">
+    <!-- Persistent Left Sidebar -->
+    <aside class="sidebar">
+      <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
+    </aside>
+    <!-- Main Content Area using control flow -->
+    @if(scope){
+      <section class="main">
+        <!-- If no prompt selected show prompt list -->
+        @if(!selectedPrompt){
+          <div class="panel prompts">
+            <h2 class="panel-title">Prompts</h2>
+            <app-prompt-list (selectPrompt)="onPromptSelected($event)" />
+            @if(promptsStore.error()){<div class="error-msg">{{promptsStore.error()}}</div>}
+          </div>
+        } @else {
+          <div class="prompt-detail">
+            <div class="detail-header">
+              <button mat-button color="primary" (click)="backToPrompts()">← Back to Prompts</button>
+              <h2 class="prompt-title">{{selectedPrompt?.name}}</h2>
+              <span class="status-chip" [class.loading]="loadingContext">@if(loadingContext){Loading…} @else {Ready}</span>
+            </div>
+            <div class="panel context">
+              <h3 class="panel-subtitle">Context @if(loadingContext){<span class="loading-indicator">(loading…)</span>}</h3>
+              <app-context-editor [value]="contextText" (valueChange)="onContextChanged($event)" />
+            </div>
+            <div class="panel test">
+              <h3 class="panel-subtitle">Execute Test</h3>
+              <app-test-execution [promptId]="selectedPrompt?.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
+            </div>
+            <div class="panel results">
+              <h3 class="panel-subtitle">Latest Results</h3>
+              <app-results-card [accuracy]="lastAccuracy" [completedAt]="lastCompletedAt" />
+            </div>
+          </div>
+        }
+      </section>
+    } @else {
+      <section class="main placeholder">
+        <div class="empty-msg">Select scope to load prompts.</div>
+      </section>
+    }
+  </div>
 </div>

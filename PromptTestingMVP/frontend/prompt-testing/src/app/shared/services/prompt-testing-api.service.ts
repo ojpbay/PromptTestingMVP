@@ -1,50 +1,70 @@
 import { Injectable } from "@angular/core";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { catchError, map, Observable, throwError } from "rxjs";
 import { Prompt, ScopeSelection, TestRunResult } from "../models/prompt.models";
 
 const BASE = "/"; // adjust if API served under different base path
 
 @Injectable({ providedIn: "root" })
 export class PromptTestingApiService {
-  async getPrompts(scope: ScopeSelection): Promise<Prompt[]> {
-    const params = new URLSearchParams({
-      team: scope.team,
-      brokingSegment: scope.brokingSegment,
-      globalLineOfBusiness: scope.globalLineOfBusiness,
-      product: scope.product,
-    });
-    const r = await fetch(`${BASE}prompts?${params.toString()}`);
-    if (!r.ok) throw new Error("Failed to load prompts");
-    return await r.json();
+  constructor(private readonly http: HttpClient) {}
+
+  getPrompts(scope: ScopeSelection): Observable<Prompt[]> {
+    const params = new HttpParams()
+      .set("team", scope.team)
+      .set("brokingSegment", scope.brokingSegment)
+      .set("globalLineOfBusiness", scope.globalLineOfBusiness)
+      .set("product", scope.product);
+    return this.http.get<Prompt[]>(`${BASE}prompts`, { params }).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError(() => new Error("Failed to load prompts"))
+      )
+    );
   }
 
-  async getPromptContext(
-    id: string
-  ): Promise<{ promptId: string; content: string }> {
-    const r = await fetch(`${BASE}prompts/${id}/context`);
-    if (r.status === 404) throw new Error("Prompt not found");
-    if (!r.ok) throw new Error("Failed to load prompt context");
-    return await r.json();
+  getPromptContext(id: string): Observable<{ promptId: string; content: string }> {
+    return this.http
+      .get<{ promptId: string; content: string }>(`${BASE}prompts/${id}/context`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 404)
+            return throwError(() => new Error("Prompt not found"));
+          return throwError(() => new Error("Failed to load prompt context"));
+        })
+      );
   }
 
-  async executeTest(
+  executeTest(
     id: string,
     context: string,
     scope: ScopeSelection
-  ): Promise<{ testId: string; status: string }> {
-    const r = await fetch(`${BASE}prompts/${id}/test`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ context, scope }),
-    });
-    if (r.status === 202) return await r.json();
-    if (r.status === 409) throw new Error("Test already running");
-    throw new Error("Failed to start test");
+  ): Observable<{ testId: string; status: string }> {
+    return this.http
+      .post<{ testId: string; status: string }>(
+        `${BASE}prompts/${id}/test`,
+        { context, scope },
+        { observe: "response" }
+      )
+      .pipe(
+        map((res) => {
+          if (res.status === 202) return res.body as { testId: string; status: string };
+          return res.body as { testId: string; status: string };
+        }),
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 409)
+            return throwError(() => new Error("Test already running"));
+          return throwError(() => new Error("Failed to start test"));
+        })
+      );
   }
 
-  async getTestResult(id: string): Promise<TestRunResult> {
-    const r = await fetch(`${BASE}tests/${id}/results`);
-    if (r.status === 404) throw new Error("Test not found");
-    if (!r.ok) throw new Error("Failed to get test results");
-    return await r.json();
+  getTestResult(id: string): Observable<TestRunResult> {
+    return this.http.get<TestRunResult>(`${BASE}tests/${id}/results`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 404)
+          return throwError(() => new Error("Test not found"));
+        return throwError(() => new Error("Failed to get test results"));
+      })
+    );
   }
 }

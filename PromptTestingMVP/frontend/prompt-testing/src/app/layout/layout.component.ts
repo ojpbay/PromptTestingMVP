@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { firstValueFrom } from 'rxjs';
 import { ContextEditorComponent } from "../context/context-editor.component";
 import { PromptListComponent } from "../prompts/prompt-list.component";
 import { PromptsStore } from "../prompts/prompts.store";
@@ -43,8 +44,8 @@ export class LayoutComponent {
     this.selectedPrompt = p;
     this.loadingContext = true;
     try {
-      const ctx = await this.api.getPromptContext(p.id);
-      this.contextText = ctx.content;
+      const ctx = await firstValueFrom(this.api.getPromptContext(p.id));
+      this.contextText = ctx.content;      
     } finally {
       this.loadingContext = false;
     }
@@ -61,6 +62,17 @@ export class LayoutComponent {
 
   async onScopeApplied(scope: ScopeSelection) {
     this.scope = scope;
+    // Reset any currently selected prompt when scope changes
+    this.selectedPrompt = undefined;
+    this.contextText = "";
+    this.lastAccuracy = undefined;
+    this.lastCompletedAt = undefined;
     await this.promptsStore.load();
+  }
+
+  backToPrompts() {
+    this.selectedPrompt = undefined;
+    // keep context/results? Requirement implies returning to only prompt list view;
+    // we'll retain last results internally but they are hidden without a selected prompt.
   }
 }

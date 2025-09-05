@@ -1,4 +1,5 @@
 import { Injectable, signal } from "@angular/core";
+import { firstValueFrom } from 'rxjs';
 import { ScopeStore } from "../scope/scope.store";
 import { Prompt } from "../shared/models/prompt.models";
 import { PromptTestingApiService } from "../shared/services/prompt-testing-api.service";
@@ -17,13 +18,11 @@ export class PromptsStore {
     this.loading.set(true);
     this.error.set(undefined);
     try {
-      const data = await this.api.getPrompts(this.scopeStore.selection());
+      const data = await firstValueFrom(this.api.getPrompts(this.scopeStore.selection()));
       this.prompts.set(data);
     } catch (e: any) {
       this.prompts.set([]);
-      this.error.set(e?.message || "Failed to load prompts");
-    } finally {
-      this.loading.set(false);
-    }
+      this.error.set(e?.message || 'Failed to load prompts');
+    } finally { this.loading.set(false); }
   }
 }
