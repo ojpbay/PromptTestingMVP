@@ -7,14 +7,6 @@
       [defaultColDef]="defaultColDef"
       (rowClicked)="onSelect($event.data)">
     </ag-grid-angular>
-    <mat-nav-list class="prompt-fallback">
-      @for (p of rowData(); track $index) {
-        <a mat-list-item (click)="onSelect(p)">
-          <span matListItemTitle>{{p.name}}</span>
-          <span matListItemLine>{{p.status}}</span>
-        </a>
-      }
-    </mat-nav-list>
   </div>
 } @else {
   <div class="prompt-list__loading">Loading...</div>

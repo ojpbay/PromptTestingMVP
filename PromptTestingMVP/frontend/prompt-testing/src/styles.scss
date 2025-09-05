@@ -1,4 +1,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+/* AG Grid core & theme styles (required for proper rendering) */
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
 /* Global styles */
 html, body { height: 100%; margin: 0; font-family: Arial, sans-serif; }
 body { background:#f5f6fa; }
