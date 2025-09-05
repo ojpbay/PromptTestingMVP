@@ -1,8 +1,9 @@
-import { signal } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { ScopeStore } from "../scope/scope.store";
 import { Prompt } from "../shared/models/prompt.models";
 import { PromptTestingApiService } from "../shared/services/prompt-testing-api.service";
 
+@Injectable({ providedIn: "root" })
 export class PromptsStore {
   prompts = signal<Prompt[]>([]);
   loading = signal(false);

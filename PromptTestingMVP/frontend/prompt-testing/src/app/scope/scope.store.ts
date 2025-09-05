@@ -1,6 +1,7 @@
-import { signal } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { ScopeSelection } from "../shared/models/prompt.models";
 
+@Injectable({ providedIn: 'root' })
 export class ScopeStore {
   selection = signal<ScopeSelection>({
     team: "",

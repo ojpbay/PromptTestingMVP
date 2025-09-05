@@ -7,8 +7,10 @@
       [defaultColDef]="defaultColDef"
       (rowClicked)="onSelect($event.data)">
     </ag-grid-angular>
-    <ul class="prompt-fallback" *ngIf="!('AgGridAngular' in window)">
-      <li class="prompt-fallback__item" (click)="onSelect(p)" *ngFor="let p of rowData()">{{p.name}} <span>- {{p.status}}</span></li>
+    <ul class="prompt-fallback">
+      @for (p of rowData(); track $index) {
+        <li class="prompt-fallback__item" (click)="onSelect(p)">{{p.name}} <span>- {{p.status}}</span></li>
+      }
     </ul>
   </div>
 } @else {

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://raw.githubusercontent.com/angular/angular-cli/main/packages/angular/cli/lib/config/workspace-schema.json",
+  "version": 1,
+  "projects": {
+    "app": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/app",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [],
+            "styles": ["src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "outputPath": "dist/app",
+              "index": "src/index.html",
+              "main": "src/main.ts",
+              "tsConfig": "tsconfig.app.json",
+              "budgets": [
+                { "type": "initial", "maximumWarning": "2mb", "maximumError": "5mb" }
+              ],
+              "outputHashing": "all"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "app:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "app:build:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

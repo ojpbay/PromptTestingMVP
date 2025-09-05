@@ -2,12 +2,14 @@
   <header class="topbar">
     <div class="brand">Prompt Testing<span class="accent">·MVP</span></div>
     <div class="topbar-right">
-      <div class="scope-summary" *ngIf="scope">
-        <span class="scope-chip">{{scope.team}}</span>
-        <span class="scope-chip">{{scope.brokingSegment}}</span>
-        <span class="scope-chip">{{scope.globalLineOfBusiness}}</span>
-        <span class="scope-chip">{{scope.product}}</span>
-      </div>
+      @if(scope) {
+        <div class="scope-summary">
+          <span class="scope-chip">{{scope.team}}</span>
+          <span class="scope-chip">{{scope.brokingSegment}}</span>
+          <span class="scope-chip">{{scope.globalLineOfBusiness}}</span>
+          <span class="scope-chip">{{scope.product}}</span>
+        </div>
+      }
   <app-scope-selector (scopeApplied)="onScopeApplied($event)" [loading]="promptsStore.loading()" />
     </div>
   </header>

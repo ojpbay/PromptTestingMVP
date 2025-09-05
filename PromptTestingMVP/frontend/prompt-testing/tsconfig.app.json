@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "angularCompilerOptions": {
+      "strictTemplates": true,
+      "preserveWhitespaces": true,
+  },
+  "files": [
+    "src/main.ts",
+    "src/app/app.routes.ts"
+  ]
+}

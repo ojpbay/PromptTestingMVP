@@ -6,6 +6,10 @@
     "moduleResolution": "Node",
     "strict": true,
     "skipLibCheck": true,
-    "types": ["jest", "node"]
-  }
+    "types": ["node"],
+    "declaration": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["tests", "**/*.spec.ts"],
+  "include": ["src/**/*.ts"]
 }
