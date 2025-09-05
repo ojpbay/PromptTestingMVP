@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, of, throwError } from "rxjs";
 import { Prompt, ScopeSelection, TestRunResult } from "../models/prompt.models";
 
 const BASE = "/"; // adjust if API served under different base path
@@ -15,16 +15,52 @@ export class PromptTestingApiService {
       .set("brokingSegment", scope.brokingSegment)
       .set("globalLineOfBusiness", scope.globalLineOfBusiness)
       .set("product", scope.product);
-    return this.http.get<Prompt[]>(`${BASE}prompts`, { params }).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => new Error("Failed to load prompts"))
-      )
-    );
+    // return this.http.get<Prompt[]>(`${BASE}prompts`, { params }).pipe(
+    //   catchError((err: HttpErrorResponse) =>
+    //     throwError(() => new Error("Failed to load prompts"))
+    //   )
+    // );
+
+    const testPrompts: Prompt[] = [
+      {
+        id: "1",
+        name: "Prompt 1",
+        status: "Active",
+        dataPoint: "premium",
+        version: "1.0",
+        accuracy: 98,
+        lastRun: "29th Aug 2025",
+      },
+      {
+        id: "2",
+        name: "Prompt 2",
+        status: "Active",
+        dataPoint: "premium",
+        version: "1.0",
+        accuracy: 98,
+        lastRun: "30th Aug 2025",
+      },
+      {
+        id: "3",
+        name: "Prompt 3",
+        status: "Draft",
+        dataPoint: "premium",
+        version: "1.0",
+        accuracy: 98,
+        lastRun: "29th June 2025",
+      },
+    ];
+
+    return of(testPrompts);
   }
 
-  getPromptContext(id: string): Observable<{ promptId: string; content: string }> {
+  getPromptContext(
+    id: string
+  ): Observable<{ promptId: string; content: string }> {
     return this.http
-      .get<{ promptId: string; content: string }>(`${BASE}prompts/${id}/context`)
+      .get<{ promptId: string; content: string }>(
+        `${BASE}prompts/${id}/context`
+      )
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === 404)
@@ -47,7 +83,8 @@ export class PromptTestingApiService {
       )
       .pipe(
         map((res) => {
-          if (res.status === 202) return res.body as { testId: string; status: string };
+          if (res.status === 202)
+            return res.body as { testId: string; status: string };
           return res.body as { testId: string; status: string };
         }),
         catchError((err: HttpErrorResponse) => {

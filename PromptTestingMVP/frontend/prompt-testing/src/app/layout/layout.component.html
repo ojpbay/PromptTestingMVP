@@ -30,7 +30,7 @@
           <div class="prompt-detail">
             <div class="detail-header">
               <button mat-button color="primary" (click)="backToPrompts()">← Back to Prompts</button>
-              <h2 class="prompt-title">{{selectedPrompt?.name}}</h2>
+              <h2 class="prompt-title">{{selectedPrompt.name}}</h2>
               <span class="status-chip" [class.loading]="loadingContext">@if(loadingContext){Loading…} @else {Ready}</span>
             </div>
             <div class="panel context">
@@ -39,7 +39,7 @@
             </div>
             <div class="panel test">
               <h3 class="panel-subtitle">Execute Test</h3>
-              <app-test-execution [promptId]="selectedPrompt?.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
+              <app-test-execution [promptId]="selectedPrompt.id" [context]="contextText" [scope]="scope" (completed)="onTestCompleted($event)" />
             </div>
             <div class="panel results">
               <h3 class="panel-subtitle">Latest Results</h3>
