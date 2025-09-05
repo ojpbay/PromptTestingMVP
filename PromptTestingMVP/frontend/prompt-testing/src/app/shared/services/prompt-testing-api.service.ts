@@ -24,28 +24,28 @@ export class PromptTestingApiService {
     const testPrompts: Prompt[] = [
       {
         id: "1",
-        name: "Prompt 1",
+        name: "Total Premium Extraction",
         status: "Active",
-        dataPoint: "premium",
-        version: "1.0",
-        accuracy: 98,
+        dataPoint: "Total Premium",
+        version: "v1.0",
+        accuracy: 98.4,
         lastRun: "29th Aug 2025",
       },
       {
         id: "2",
-        name: "Prompt 2",
+        name: "Policy Holder Name",
         status: "Active",
-        dataPoint: "premium",
-        version: "1.0",
+        dataPoint: "Policy Holder",
+        version: "v1.0",
         accuracy: 98,
         lastRun: "30th Aug 2025",
       },
       {
         id: "3",
-        name: "Prompt 3",
+        name: "Coverage Limits",
         status: "Draft",
-        dataPoint: "premium",
-        version: "1.0",
+        dataPoint: "Coverage",
+        version: "v0.9",
         accuracy: 98,
         lastRun: "29th June 2025",
       },
@@ -57,17 +57,22 @@ export class PromptTestingApiService {
   getPromptContext(
     id: string
   ): Observable<{ promptId: string; content: string }> {
-    return this.http
-      .get<{ promptId: string; content: string }>(
-        `${BASE}prompts/${id}/context`
-      )
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          if (err.status === 404)
-            return throwError(() => new Error("Prompt not found"));
-          return throwError(() => new Error("Failed to load prompt context"));
-        })
-      );
+    // return this.http
+    //   .get<{ promptId: string; content: string }>(
+    //     `${BASE}prompts/${id}/context`
+    //   )
+    //   .pipe(
+    //     catchError((err: HttpErrorResponse) => {
+    //       if (err.status === 404)
+    //         return throwError(() => new Error("Prompt not found"));
+    //       return throwError(() => new Error("Failed to load prompt context"));
+    //     })
+    //   );
+
+    return of({
+      promptId: id,
+      content: `This is the context for prompt ID ${id}.`,
+    });
   }
 
   executeTest(
